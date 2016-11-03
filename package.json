@@ -1,0 +1,29 @@
+{
+  "name": "wisp-react-redux",
+  "version": "0.1.0",
+  "description": "A Toast/Notification Library that integrates seamlessly with React/Redux.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChrisPenner/wisp-react-redux.git"
+  },
+  "keywords": [
+    "React",
+    "Redux",
+    "Toast",
+    "Notification"
+  ],
+  "author": "Chris Penner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChrisPenner/wisp-react-redux/issues"
+  },
+  "homepage": "https://github.com/ChrisPenner/wisp-react-redux#readme",
+  "peerDependencies": {
+    "redux": "^3.x",
+    "react-redux": "^4.x"
+  }
+}
