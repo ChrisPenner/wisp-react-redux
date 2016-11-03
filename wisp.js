@@ -1,8 +1,9 @@
 /* @flow */
 import Animate from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
-export const CREATE_TOAST = 'CREATE_TOAST'
-export const HIDE_TOAST = 'HIDE_TOAST'
+import React from 'react'
+export const CREATE_WISP = '@wisp/CREATE_WISP'
+export const HIDE_WISP = '@wisp/HIDE_WISP'
 
 let id = 1
 
@@ -17,29 +18,29 @@ type action = {
   payload: Object,
 }
 
-export const createToast = (payload: optionsT): action => ({
-  type: CREATE_TOAST,
+export const createWisp = (payload: optionsT): action => ({
+  type: CREATE_WISP,
   payload,
 })
 
-export const hideToast = (payload: optionsT): action => ({
-  type: HIDE_TOAST,
+export const hideWisp = (payload: optionsT): action => ({
+  type: HIDE_WISP,
   payload,
 })
 
-export const toast = (options: Object) => (title: string, message: ?string) => (dispatch: Function) => {
+export const wisp = (options: Object) => (title: string, message: ?string) => (dispatch: Function) => {
   const key = String(id++)
-  const newToast = createToast(Object.assign({
+  const newWisp = createWisp(Object.assign({
     id: key,
     title,
     message,
   }, options));
-  dispatch(newToast);
-  setTimeout(() => dispatch(hideToast({ id: key, })), 3000)
+  dispatch(newWisp);
+  setTimeout(() => dispatch(hideWisp({ id: key, })), 3000)
 }
 
-export const successToast = toast({type: 'success'})
-export const errorToast = toast({type: 'error'})
+export const successWisp = wisp({wispClass: 'success'})
+export const errorWisp = wisp({wispClass: 'error'})
 
 export type WispState = {[id: string]: optionsT}
 const DEFAULT_STATE:WispState = {}
@@ -47,11 +48,11 @@ const DEFAULT_STATE:WispState = {}
 export const wispReducer: (state: optionsT, action: Object) => optionsT = (state=DEFAULT_STATE, action) => {
   const {payload} = action
   switch (action.type) {
-  case CREATE_TOAST:
+  case CREATE_WISP:
     return Object.assign({}, state, {
       [payload.id]: payload,
     })
-  case HIDE_TOAST:
+  case HIDE_WISP:
     const newState = Object.assign({}, state)
     delete newState[payload.id]
     return newState
@@ -60,14 +61,9 @@ export const wispReducer: (state: optionsT, action: Object) => optionsT = (state
   }
 }
 
-const statusToClass = {
-  'success': 'is-success',
-  'error': 'is-danger',
-}
+const stateToProps = ({wisps}) => ({wisps})
 
-const stateToProps = ({toasts}) => ({toasts})
-
-// const toastStyle = {
+// const wispStyle = {
 //   'position': 'fixed',
 //   'top': '1em',
 //   'right': '1em',
@@ -76,7 +72,38 @@ const stateToProps = ({toasts}) => ({toasts})
 //   'transition': 'all 1s ease-in',
 // }
 
-const toastStyle = `
+const wispStyle = `
+
+.success {
+    background-color: #97cd76;
+    color: white;
+}
+
+.error {
+    background-color: #ed6c63;
+    color: white;
+}
+
+.wisp {
+    background-color: #f5f7fa;
+    border-radius: 3px;
+    padding: 16px 20px;
+    position: relative;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+.wisp-title {
+    color: inherit;
+    font-size: 18px;
+    line-height: 1.125;
+}
+
+.wisp-title {
+    color: inherit;
+    font-size: 16px;
+    line-height: 1;
+}
+
 .wisps {
   position: fixed;
   top: 1em;
@@ -105,18 +132,18 @@ const toastStyle = `
 }
 `
 
-export const Toasts = connect(stateToProps)(({toasts, customClass}) => {
-  const allToasts = Object.values(toasts).map((({title, message, id, type}) => (
-    <div  key={id} className={`notification ${statusToClass[type]} ${customClass || ''}`}>
-      {title && <h1 className="subtitle">{title}</h1>}
-      {message && <h2 className="subtitle">{message}</h2>}
+export const Wisp = connect(stateToProps)(({wisps}) => {
+  const allWisps = Object.values(wisps).map((({title, message, id, wispClass='', customClass=''}) => (
+    <div  key={id} className={`${wispClass} ${customClass}`}>
+      {title && <h1 className="wisp-title">{title}</h1>}
+      {message && <h2 className="wisp-message">{message}</h2>}
     </div>
   )))
   return (
     <Animate className="wisps" transitionName="wisp" transitionEnterTimeout={200} transitionLeaveTimeout={400}>
       <style>
-        {toastStyle}
+        {wispStyle}
       </style>
-      {allToasts}
+      {allWisps}
     </Animate>
   )})

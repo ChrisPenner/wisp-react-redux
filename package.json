@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/ChrisPenner/wisp-react-redux#readme",
   "peerDependencies": {
-    "redux": "^3.x",
-    "react-redux": "^4.x"
+    "redux": "*",
+    "react-redux": "*"
   },
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
