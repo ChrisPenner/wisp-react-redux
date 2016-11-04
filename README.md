@@ -1,6 +1,10 @@
 # Wisp
 A Toast/Notification Library that integrates seamlessly with React and Redux.
 
+![Success](images/success.png)
+
+![Error](images/error.png)
+
 ## What is it
 It's a toast-style notification system that works well with the rest of your react-redux app.
 You display notifications by dispatching actions.
