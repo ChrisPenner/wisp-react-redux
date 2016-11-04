@@ -6,7 +6,13 @@ It's a toast-style notification system that works well with the rest of your rea
 You display notifications by dispatching actions.
 
 ## Setup
-Add the `Wisps` to your app so it's rendered on every page (the actual location in the page doesn't matter).
+Wisp requires the following dependencies to be installed:
+
+- `react`
+- `react-redux`
+- `react-addons-css-transition-group`
+
+Add the `Wisps` component to your app so it's rendered on every page (the actual location in the page doesn't matter).
 
 ```javascript
 import { Wisps } from 'wisp-react-redux'
@@ -32,6 +38,8 @@ export default combineReducers({
 })
 ```
 
+Also ensure that the
+
 Now you can trigger notifications by dispatching actions! There are some action creators built in:
 
 - successWisp
@@ -44,6 +52,7 @@ These take an options object as their only parameter:
 {
     [optional] title,
     [optional] message,
+    [optional] customClass,
 }
 ```
 

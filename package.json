@@ -24,7 +24,8 @@
   "homepage": "https://github.com/ChrisPenner/wisp-react-redux#readme",
   "peerDependencies": {
     "redux": "*",
-    "react-redux": "*"
+    "react-redux": "*",
+    "react-addons-css-transition-group": "*"
   },
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.18.0",

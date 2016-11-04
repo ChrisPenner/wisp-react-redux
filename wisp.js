@@ -28,19 +28,21 @@ export const hideWisp = (payload: optionsT): action => ({
   payload,
 })
 
-export const wisp = (options: Object) => (title: string, message: ?string) => (dispatch: Function) => {
+export const wispMaker = (options: Object) => ({title, message, customClass}) => (dispatch: Function) => {
   const key = String(id++)
-  const newWisp = createWisp(Object.assign({
+  const newWisp = createWisp(Object.assign(options, {
     id: key,
     title,
     message,
-  }, options));
+    customClass,
+  }));
   dispatch(newWisp);
   setTimeout(() => dispatch(hideWisp({ id: key, })), 3000)
 }
 
-export const successWisp = wisp({wispClass: 'success'})
-export const errorWisp = wisp({wispClass: 'error'})
+export const successWisp = wispMaker({wispClass: 'success'})
+export const errorWisp = wispMaker({wispClass: 'error'})
+export const wisp = wispMaker({})
 
 export type WispState = {[id: string]: optionsT}
 const DEFAULT_STATE:WispState = {}
@@ -74,18 +76,18 @@ const stateToProps = ({wisps}) => ({wisps})
 
 const wispStyle = `
 
-.success {
+.wisp.success {
     background-color: #97cd76;
     color: white;
 }
 
-.error {
+.wisp.error {
     background-color: #ed6c63;
     color: white;
 }
 
 .wisp {
-    background-color: #f5f7fa;
+    background-color: #00d1b2;
     border-radius: 3px;
     padding: 16px 20px;
     position: relative;
@@ -96,12 +98,14 @@ const wispStyle = `
     color: inherit;
     font-size: 18px;
     line-height: 1.125;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
-.wisp-title {
+.wisp-message {
     color: inherit;
     font-size: 16px;
     line-height: 1;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .wisps {
@@ -132,9 +136,9 @@ const wispStyle = `
 }
 `
 
-export const Wisp = connect(stateToProps)(({wisps}) => {
+export const Wisps = connect(stateToProps)(({wisps}) => {
   const allWisps = Object.values(wisps).map((({title, message, id, wispClass='', customClass=''}) => (
-    <div  key={id} className={`${wispClass} ${customClass}`}>
+    <div key={id} className={`wisp ${wispClass} ${customClass}`}>
       {title && <h1 className="wisp-title">{title}</h1>}
       {message && <h2 className="wisp-message">{message}</h2>}
     </div>
